@@ -55,7 +55,7 @@ y = 90
 
 idle = True
 dirX, dirY = 0, 0
-state = 1
+state = 2
 frame = 0
 
 def drawCharacter(left, down, width, height):
@@ -65,16 +65,26 @@ def drawCharacter(left, down, width, height):
     update_canvas()
     handle_events()
 
+def drawCharacterF(left, down, width, height):    # 반전해서 그리는 함수
+    global x, y
+
+    character.clip_composite_draw(left, down, width, height, 0, 'h', x, y, 200, 200)
+    update_canvas()
+    handle_events()
+
 def idleRight():
     global frame
     
     drawCharacter(frame * 25, 803, 25, 24)
     frame = (frame + 1) % 4
-    #x += dir * 5
     delay(0.2)
 
 def idleLeft():
-    pass
+    global frame
+    
+    drawCharacterF(frame * 25, 803, 25, 24)
+    frame = (frame + 1) % 4
+    delay(0.2)
 
 def idleUp():
     pass
@@ -110,7 +120,7 @@ while moving:
             idleRight()
 
         elif state == 2:
-            pass
+            idleLeft()
 
         elif state == 3:
             pass
