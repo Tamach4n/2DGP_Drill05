@@ -16,9 +16,9 @@ def checkState():
 def checkCollision():
     global x, y
 
-    r = 25 // 2
+    r = 50
 
-    if x - r >= 0 & x + r <= 800 & y - r >= 0 & y + r <= 600:
+    if (x - r >= 0) and (x + r <= 800) and (y - r >= 0) and (y + r <= 600):
         return True
     
     else:
