@@ -76,11 +76,11 @@ def handle_events():
 
 moving = True
 x = 800 // 2
-y = 190
+y = 90
 
 idle = True
 dirX, dirY = 0, 0
-state = 3
+state = 4
 frame = 0
 
 #   캐릭터 드로우 & 상태 업데이트 함수들
@@ -127,7 +127,6 @@ def idleDown():
     
     drawCharacter(frame * 25, 828, 25, 24)
     frame = updateFrames(frame, 6, 0.2)
-    #x += dir * 5
 
 #   이동 애니메이션 함수들
 def moveRight():
@@ -135,23 +134,28 @@ def moveRight():
 
     drawCharacter(frame * 25, 679, 25, 24)
     frame = updateFrames(frame, 12, 0.2)
+    x += dirX * 20
 
 def moveLeft():
     global frame, x
 
     drawCharacterF(frame * 25, 679, 25, 24)
     frame = updateFrames(frame, 12, 0.2)
+    x += dirX * 20
 
 def moveUp():
     global frame, y
-    pass
+    
+    drawCharacter(frame * 25, 653, 25, 24)
+    frame = updateFrames(frame, 12, 0.2)
+    y += dirY * 20
 
 def moveDown():
     global frame, y
     
     drawCharacterF(frame * 25, 703, 25, 24)
     frame = updateFrames(frame, 12, 0.2)
-    y += dirY * 5
+    y += dirY * 20
 
 #   거의 MAIN 함수
 while moving:
