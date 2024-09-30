@@ -47,11 +47,14 @@ def idle():
     character.clip_draw(frame * 25, 828, 25, 24, x, y, 200, 200)
     update_canvas()
     handle_events()
-    frame = (frame + 1) % 12
+    frame = (frame + 1) % 6
     #x += dir * 5
+    delay(0.2)
 
 def moveRight():
-    pass
+    global x, y, frame
+
+    #character.clip_draw(frame * 25, )
 
 def moveLeft():
     pass
@@ -80,7 +83,5 @@ while moving:
 
     elif state == 4:    #   하
         pass
-
-    delay(0.1)
 
 close_canvas()
