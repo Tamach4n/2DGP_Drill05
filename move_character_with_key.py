@@ -55,15 +55,34 @@ y = 90
 
 idle = True
 dirX, dirY = 0, 0
-state = 4
+state = 1
 frame = 0
 
-def idleDown():
-    global x, y, frame
-    
-    character.clip_draw(frame * 25, 828, 25, 24, x, y, 200, 200)
+def drawCharacter(left, down, width, height):
+    global x, y
+
+    character.clip_draw(left, down, width, height, x, y, 200, 200)
     update_canvas()
     handle_events()
+
+def idleRight():
+    global frame
+    
+    drawCharacter(frame * 25, 803, 25, 24)
+    frame = (frame + 1) % 4
+    #x += dir * 5
+    delay(0.2)
+
+def idleLeft():
+    pass
+
+def idleUp():
+    pass
+
+def idleDown():
+    global frame
+    
+    drawCharacter(frame * 25, 828, 25, 24)
     frame = (frame + 1) % 6
     #x += dir * 5
     delay(0.2)
@@ -88,7 +107,7 @@ while moving:
 
     if idle:  #   아이들 상태
         if state == 1:
-            pass
+            idleRight()
 
         elif state == 2:
             pass
