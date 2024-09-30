@@ -5,44 +5,61 @@ bg = load_image('TUK_GROUND.png')
 character = load_image('ThePilot1.png')
 
 def handle_events():
-    global running, dir
-    global x
+    global moving, dir, state
 
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
-            running = False
+            moving = False
 
-        elif event.type == SDL_KEYDOWN:
+        elif event.type == SDL_KEYDOWN: #   누름
             if event.key == SDLK_RIGHT:
                 dir += 1
+                state = 1
 
             elif event.key == SDLK_LEFT:
                 dir -= 1
+                state = 2
 
-            elif event.key == SDLK_ESCAPE:
-                running = False
+            elif event.key == SDLK_ESCAPE:  #   ESC
+                moving = False
 
-        elif event.type == SDL_KEYUP:
+        elif event.type == SDL_KEYUP:  #   뗌
             if event.key == SDLK_RIGHT:
                 dir -= 1
+                state = 0
 
             elif event.key == SDLK_LEFT:
                 dir += 1
+                state = 0
 
-running = True
+moving = True
 x = 800 // 2
 frame = 0
 dir = 0
+state = 0
 
-while running:
-    clear_canvas()
-    bg.draw(400, 100)
-    character.clip_draw(frame * 100, 100, 100, 100, x, 90)
-    update_canvas()
-    handle_events()
-    frame = (frame + 1) % 8
-    x += dir * 5
-    delay(0.05)
+while moving:
+    if state == 0:  #   아이들 상태
+        clear_canvas()
+        bg.draw(400, 100)
+        character.clip_draw(frame * 25, 828, 25, 24, x, 90, 200, 200)
+        update_canvas()
+        handle_events()
+        frame = (frame + 1) % 12
+        x += dir * 5
+        delay(0.1)
+
+    elif state == 1:
+        pass
+
+    elif state == 2:
+        pass
+
+    elif state == 3:
+        pass
+
+    elif state == 4:
+        pass
 
 close_canvas()
