@@ -5,7 +5,7 @@ bg = load_image('TUK_GROUND.png')
 character = load_image('ThePilot1.png')
 
 def handle_events():
-    global moving, dirX, dirY, state, idle
+    global moving, dirX, dirY, state, idle, frame
 
     events = get_events()
     for event in events:
@@ -18,17 +18,21 @@ def handle_events():
 
             if event.key == SDLK_RIGHT:
                 dirX += 1
+                dirY = 0
                 state = 1
 
             elif event.key == SDLK_LEFT:
                 dirX -= 1
+                dirY = 0
                 state = 2
 
             elif event.key == SDLK_UP:
+                dirX = 0
                 dirY += 1
                 state = 3
 
             elif event.key == SDLK_DOWN:
+                dirX = 0
                 dirY -= 1
                 state = 4
 
@@ -75,35 +79,35 @@ def drawCharacterF(left, down, width, height):    # 반전해서 그리는 함�
     update_canvas()
     handle_events()
 
+def updateFrames(frame, frames, dTime):
+    frame = (frame + 1) % frames
+    delay(dTime)
+
 #   IDLE 상태 애니메이션 함수들
 def idleRight():
     global frame
     
     drawCharacter(frame * 25, 803, 25, 24)
-    frame = (frame + 1) % 4
-    delay(0.2)
+    updateFrames(frame, 4, 0.2)
 
 def idleLeft():
     global frame
     
     drawCharacterF(frame * 25, 803, 25, 24)
-    frame = (frame + 1) % 4
-    delay(0.2)
+    updateFrames(frame, 4, 0.2)
 
 def idleUp():
     global frame
     
     drawCharacterF(frame * 25, 778, 25, 24)
-    frame = (frame + 1) % 6
-    delay(0.2)
+    updateFrames(frame, 6, 0.2)
 
 def idleDown():
     global frame
     
     drawCharacter(frame * 25, 828, 25, 24)
-    frame = (frame + 1) % 6
+    updateFrames(frame, 6, 0.2)
     #x += dir * 5
-    delay(0.2)
 
 #   이동 애니메이션 함수들
 def moveRight():
@@ -112,13 +116,18 @@ def moveRight():
     #character.clip_draw(frame * 25, )
 
 def moveLeft():
+    global frame
     pass
 
 def moveUp():
+    global frame
     pass
 
 def moveDown():
-    pass
+    global frame
+    
+    drawCharacterF(frame * 25, 703, 25, 24)
+    updateFrames(frame, 12, 0.2)
 
 #   거의 MAIN 함수
 while moving:
@@ -139,15 +148,15 @@ while moving:
             idleDown()
 
     elif state == 1:    #   우
-        pass
+        moveRight()
 
     elif state == 2:    #   좌
-        pass
+        moveLeft()
 
     elif state == 3:    #   상
-        pass
+        moveUp()
 
     elif state == 4:    #   하
-        pass
+        moveDown()
 
 close_canvas()
