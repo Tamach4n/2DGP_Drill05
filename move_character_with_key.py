@@ -5,7 +5,7 @@ bg = load_image('TUK_GROUND.png')
 character = load_image('ThePilot1.png')
 
 def handle_events():
-    global moving, dir, state
+    global moving, dirX, dirY, state, idle
 
     events = get_events()
     for event in events:
@@ -13,35 +13,52 @@ def handle_events():
             moving = False
 
         elif event.type == SDL_KEYDOWN: #   누름
+            idle = False
+
             if event.key == SDLK_RIGHT:
-                dir += 1
+                dirX += 1
                 state = 1
 
             elif event.key == SDLK_LEFT:
-                dir -= 1
+                dirX -= 1
                 state = 2
+
+            elif event.key == SDLK_UP:
+                dirY += 1
+                state = 3
+
+            elif event.key == SDLK_DOWN:
+                dirY -= 1
+                state = 4
 
             elif event.key == SDLK_ESCAPE:  #   ESC
                 moving = False
 
         elif event.type == SDL_KEYUP:  #   뗌
+            idle = True
+
             if event.key == SDLK_RIGHT:
-                dir -= 1
-                state = 0
+                dirX -= 1
 
             elif event.key == SDLK_LEFT:
-                dir += 1
-                state = 0
+                dirX += 1
+
+            elif event.key == SDLK_UP:
+                dirY -= 1
+
+            elif event.key == SDLK_DOWN:
+                dirY += 1
 
 moving = True
 x = 800 // 2
 y = 90
 
-dir = 0
-state = 0
+idle = True
+dirX, dirY = 0, 0
+state = 4
 frame = 0
 
-def idle():
+def idleDown():
     global x, y, frame
     
     character.clip_draw(frame * 25, 828, 25, 24, x, y, 200, 200)
@@ -69,8 +86,18 @@ while moving:
     clear_canvas()
     bg.draw(400, 100)
 
-    if state == 0:  #   아이들 상태
-        idle()
+    if idle:  #   아이들 상태
+        if state == 1:
+            pass
+
+        elif state == 2:
+            pass
+
+        elif state == 3:
+            pass
+        
+        elif state == 4:
+            idleDown()
 
     elif state == 1:    #   우
         pass
