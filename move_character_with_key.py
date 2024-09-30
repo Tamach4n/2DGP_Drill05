@@ -12,6 +12,17 @@ def checkState():
     
     else:
         return False
+    
+def checkCollision():
+    global x, y
+
+    r = 25 // 2
+
+    if x - r >= 0 & x + r <= 800 & y - r >= 0 & y + r <= 600:
+        return True
+    
+    else:
+        return False
 
 def handle_events():
     global moving, dirX, dirY, state, idle, frame
@@ -25,33 +36,28 @@ def handle_events():
         #   누름
         elif event.type == SDL_KEYDOWN: 
             idle = False
-            isIdle = checkState()
 
             if event.key == SDLK_RIGHT:
-                if not isIdle:  break
+                if not checkState():  break
 
                 dirX += 1
-                dirY = 0
                 state = 1
 
             elif event.key == SDLK_LEFT:
-                if not isIdle:  break
+                if not checkState():  break
                 
                 dirX -= 1
-                dirY = 0
                 state = 2
 
             elif event.key == SDLK_UP:
-                if not isIdle:  break
+                if not checkState():  break
                 
-                dirX = 0
                 dirY += 1
                 state = 3
 
             elif event.key == SDLK_DOWN:
-                if not isIdle:  break
+                if not checkState():  break
                 
-                dirX = 0
                 dirY -= 1
                 state = 4
 
@@ -76,7 +82,7 @@ def handle_events():
 
 moving = True
 x = 800 // 2
-y = 90
+y = 600 // 2
 
 idle = True
 dirX, dirY = 0, 0
@@ -134,28 +140,36 @@ def moveRight():
 
     drawCharacter(frame * 25, 679, 25, 24)
     frame = updateFrames(frame, 12, 0.2)
-    x += dirX * 20
+
+    if checkCollision():
+        x += dirX * 20
 
 def moveLeft():
     global frame, x
 
     drawCharacterF(frame * 25, 679, 25, 24)
     frame = updateFrames(frame, 12, 0.2)
-    x += dirX * 20
+
+    if checkCollision():
+        x += dirX * 20
 
 def moveUp():
     global frame, y
     
     drawCharacter(frame * 25, 653, 25, 24)
     frame = updateFrames(frame, 12, 0.2)
-    y += dirY * 20
+
+    if checkState():
+        y += dirY * 20
 
 def moveDown():
     global frame, y
     
     drawCharacterF(frame * 25, 703, 25, 24)
     frame = updateFrames(frame, 12, 0.2)
-    y += dirY * 20
+
+    if checkState():
+        y += dirY * 20
 
 #   거의 MAIN 함수
 while moving:
