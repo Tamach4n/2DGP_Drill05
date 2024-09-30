@@ -35,22 +35,20 @@ def handle_events():
 
 moving = True
 x = 800 // 2
+y = 90
 
 dir = 0
 state = 0
 frame = 0
 
 def idle():
-    global x, frame
+    global x, y, frame
     
-    clear_canvas()
-    bg.draw(400, 100)
-    character.clip_draw(frame * 25, 828, 25, 24, x, 90, 200, 200)
+    character.clip_draw(frame * 25, 828, 25, 24, x, y, 200, 200)
     update_canvas()
     handle_events()
     frame = (frame + 1) % 12
     #x += dir * 5
-    delay(0.1)
 
 def moveRight():
     pass
@@ -65,6 +63,9 @@ def moveDown():
     pass
 
 while moving:
+    clear_canvas()
+    bg.draw(400, 100)
+
     if state == 0:  #   아이들 상태
         idle()
 
@@ -79,5 +80,7 @@ while moving:
 
     elif state == 4:    #   하
         pass
+
+    delay(0.1)
 
 close_canvas()
