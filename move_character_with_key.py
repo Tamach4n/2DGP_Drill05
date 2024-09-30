@@ -12,7 +12,8 @@ def handle_events():
         if event.type == SDL_QUIT:
             moving = False
 
-        elif event.type == SDL_KEYDOWN: #   누름
+        #   누름
+        elif event.type == SDL_KEYDOWN: 
             idle = False
 
             if event.key == SDLK_RIGHT:
@@ -34,7 +35,8 @@ def handle_events():
             elif event.key == SDLK_ESCAPE:  #   ESC
                 moving = False
 
-        elif event.type == SDL_KEYUP:  #   뗌
+        #   뗌
+        elif event.type == SDL_KEYUP: 
             idle = True
 
             if event.key == SDLK_RIGHT:
@@ -55,9 +57,10 @@ y = 90
 
 idle = True
 dirX, dirY = 0, 0
-state = 2
+state = 3
 frame = 0
 
+#   캐릭터 드로우 & 상태 업데이트 함수들
 def drawCharacter(left, down, width, height):
     global x, y
 
@@ -72,6 +75,7 @@ def drawCharacterF(left, down, width, height):    # 반전해서 그리는 함�
     update_canvas()
     handle_events()
 
+#   IDLE 상태 애니메이션 함수들
 def idleRight():
     global frame
     
@@ -87,7 +91,11 @@ def idleLeft():
     delay(0.2)
 
 def idleUp():
-    pass
+    global frame
+    
+    drawCharacterF(frame * 25, 778, 25, 24)
+    frame = (frame + 1) % 6
+    delay(0.2)
 
 def idleDown():
     global frame
@@ -97,6 +105,7 @@ def idleDown():
     #x += dir * 5
     delay(0.2)
 
+#   이동 애니메이션 함수들
 def moveRight():
     global x, y, frame
 
@@ -111,6 +120,7 @@ def moveUp():
 def moveDown():
     pass
 
+#   거의 MAIN 함수
 while moving:
     clear_canvas()
     bg.draw(400, 100)
@@ -123,7 +133,7 @@ while moving:
             idleLeft()
 
         elif state == 3:
-            pass
+            idleUp()
         
         elif state == 4:
             idleDown()
