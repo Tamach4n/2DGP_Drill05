@@ -16,10 +16,13 @@ def checkState():
 def checkCollision():
     global x, y
 
-    r = 50
+    r = 50 + 20
 
-    if (x - r >= 0) and (x + r <= 800) and (y - r >= 0) and (y + r <= 600):
-        return True
+    if  x + r >= 800:
+        return 1
+
+    elif x - r <= 0:
+        return 2
     
     else:
         return False
@@ -85,6 +88,7 @@ x = 800 // 2
 y = 600 // 2
 
 idle = True
+move = 0
 dirX, dirY = 0, 0
 state = 4
 frame = 0
@@ -136,40 +140,48 @@ def idleDown():
 
 #   이동 애니메이션 함수들
 def moveRight():
-    global x, frame
+    global x, frame, move
 
     drawCharacter(frame * 25, 679, 25, 24)
     frame = updateFrames(frame, 12, 0.2)
 
-    if checkCollision():
+    if move != 1:
         x += dirX * 20
 
+    move = checkCollision()
+
 def moveLeft():
-    global frame, x
+    global frame, x, move
 
     drawCharacterF(frame * 25, 679, 25, 24)
     frame = updateFrames(frame, 12, 0.2)
 
-    if checkCollision():
+    if move != 2:
         x += dirX * 20
 
+    move = checkCollision()
+
 def moveUp():
-    global frame, y
+    global frame, y, move
     
     drawCharacter(frame * 25, 653, 25, 24)
     frame = updateFrames(frame, 12, 0.2)
 
-    if checkState():
+    if move != 3:
         y += dirY * 20
 
+    move = checkCollision()
+
 def moveDown():
-    global frame, y
+    global frame, y, move
     
     drawCharacterF(frame * 25, 703, 25, 24)
     frame = updateFrames(frame, 12, 0.2)
 
-    if checkState():
+    if move != 4:
         y += dirY * 20
+
+    move = checkCollision()
 
 #   거의 MAIN 함수
 while moving:
